@@ -49,6 +49,7 @@ class Hangman:
     def ascii_display(self):
         print(ascii_hangmane_art.hangman_stages[self.__player_attempts])
 
+
     def player_input(self):
         """Gets and returns a valid lower case letter from player"""
 

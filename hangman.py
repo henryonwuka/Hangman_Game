@@ -2,6 +2,7 @@
 
 import random
 from os import strerror
+import ascii_hangmane_art
 
 
 class Hangman:
@@ -36,7 +37,7 @@ class Hangman:
         return (random.choice(self.word_list)).upper().strip()
 
     def ascii_display(self):
-        pass
+        print(ascii_hangmane_art.hangman_stages[self.player_attempts])
 
     def player_input(self):
         """Gets and returns a valid lower case letter from player"""
@@ -49,26 +50,36 @@ class Hangman:
                 print("Enter a valid letter!!!")
 
     def play_game(self):
-        
-        while self.player_attempts < self.player_max_attempts:
-            hidden_word = self.random_word_pick()
-            display_word = "_"*len(hidden_word)
+        hidden_word = self.random_word_pick()
+        display_word = "_" * len(hidden_word)
+        print("Guess the word correctly, and save the man")
+        self.ascii_display()
 
-            while display_word != hidden_word:
-                print(display_word)
-                player_word = self.player_input()
+        while self.player_attempts < self.player_max_attempts and display_word != hidden_word:
+            print(f"{display_word}")
+            player_word = self.player_input()
 
-                if player_word in hidden_word:
-                    for i in range(len(hidden_word)):   #Replace a correct word in the display
-                        if hidden_word[i] == player_word:
+            if player_word in hidden_word and player_word not in display_word:
+                print(f"Correct")
+                for i in range(len(hidden_word)):   #Replace a correct word in the display
+                    if hidden_word[i] == player_word:
                             display_word = display_word[:i] + player_word + display_word[i + 1:]
+                
+                if display_word == hidden_word:
+                    self.player_score += 1
+                    print(f"Full word: {display_word}\nScore: {self.player_score}")
+                    return
+
+            else:
+                if player_word in display_word:
+                    print(f"You already entered that letter!!!")
 
                 else:
-                    print("Wrong word")
                     self.player_attempts += 1
+                    self.ascii_display()
+                    print(f"Opps, wrong letter. Attempts left: {self.player_attempts}/{self.player_max_attempts}")
 
-        else:
-            self.end_game()
+
 
     def end_game(self):
         """Ends the game and displays player results"""

@@ -42,7 +42,7 @@ class Hangman:
 
 
     def random_word_pick(self):
-        """Returns a random word from the word list in lower case"""
+        """Returns a random word from the word list in upper case"""
         return (random.choice(self.__word_list)).upper().strip()
 
 
@@ -51,7 +51,7 @@ class Hangman:
 
 
     def player_input(self):
-        """Gets and returns a valid lower case letter from player"""
+        """Gets and returns a valid upper case letter from player"""
 
         while True:
             player_input = input("Enter a Letter: ")
@@ -73,7 +73,7 @@ class Hangman:
 
             if player_word in hidden_word and player_word not in display_word:
                 print(f"Correct")
-                for i in range(len(hidden_word)):   #Replace a correct word in the display
+                for i in range(len(hidden_word)):   #Replace a correct word in the display word
                     if hidden_word[i] == player_word:
                             display_word = display_word[:i] + player_word + display_word[i + 1:]
                 
@@ -104,10 +104,14 @@ class Hangman:
 
 def main():
     game_instance = Hangman()
-    while game_instance.player_state():
-        game_instance.play_game()
 
-    else:
-        game_instance.end_game()
+    while True:
+        while game_instance.player_state():
+            game_instance.play_game()
 
+        else:
+            game_instance.end_game()
+            restart_game = input("Go another round! [Press Enter to play again, any other key to quit game]: ")
+            if restart_game != "":
+                break
 main()

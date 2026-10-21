@@ -64,6 +64,7 @@ class Hangman:
     def play_game(self):
         hidden_word = self.random_word_pick()
         display_word = "_" * len(hidden_word)
+        guessed_letters = ""
         print("Guess the word correctly, and save the man")
         self.ascii_display()
 
@@ -71,8 +72,10 @@ class Hangman:
             print(f"{display_word}")
             player_word = self.player_input()
 
-            if player_word in hidden_word and player_word not in display_word:
+            if player_word in hidden_word and player_word not in guessed_letters:
                 print(f"Correct")
+                guessed_letters += player_word
+                
                 for i in range(len(hidden_word)):   #Replace a correct word in the display word
                     if hidden_word[i] == player_word:
                             display_word = display_word[:i] + player_word + display_word[i + 1:]
@@ -83,10 +86,11 @@ class Hangman:
                     return
 
             else:
-                if player_word in display_word:
+                if player_word in guessed_letters:
                     print(f"You already entered that letter!!!")
 
                 else:
+                    guessed_letters += player_word
                     self.__player_attempts += 1
                     self.ascii_display()
                     print(f"Opps, wrong letter. Attempts left: {self.__player_attempts}/{self.player_max_attempts}")
